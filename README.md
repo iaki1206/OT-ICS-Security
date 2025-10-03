@@ -1,4 +1,4 @@
-# ICS Cybersecurity Platform - Production
+# OT/ICS Security Platform
 
 ## Overview
 
@@ -31,6 +31,20 @@ AI-Powered Cybersecurity Framework for Industrial Control Systems (ICS/OT) with 
          │   (Cache)       │    │  (Metrics)      │    │ (Monitoring)    │
          │   Port: 6379    │    │   Port: 9090    │    │   Port: 3001    │
          └─────────────────┘    └─────────────────┘    └─────────────────┘
+```
+
+## Repository Structure
+
+```
+├── backend/           # FastAPI backend application
+├── config/            # Configuration files (.env.example, nginx.conf, prometheus.yml)
+├── deployments/       # Deployment configurations for different environments
+├── docs/              # Documentation files
+├── frontend/          # React frontend application
+├── grafana/           # Grafana dashboards and configurations
+├── production/        # Production-specific Dockerfiles and configurations
+├── scripts/           # Installation and utility scripts
+└── docker-compose.yml # Main Docker Compose configuration
 ```
 
 ## Quick Start
