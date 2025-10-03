@@ -1,0 +1,222 @@
+# Platform-specific configuration for Linux Debian deployment
+# This file contains Linux-optimized settings for the ICS Cybersecurity Platform
+
+platform:
+  name: "debian"
+  version: "10+"
+  architecture: "x64"
+
+# Docker configuration for Linux
+docker:
+  # Native Linux containers
+  container_type: "linux"
+  
+  # Memory limits (Linux specific)
+  memory_limits:
+    backend: "1g"
+    frontend: "512m"
+    postgres: "1g"
+    redis: "256m"
+    prometheus: "512m"
+    grafana: "256m"
+  
+  # CPU limits
+  cpu_limits:
+    backend: "1.0"
+    frontend: "0.5"
+    postgres: "1.0"
+    redis: "0.5"
+    prometheus: "0.5"
+    grafana: "0.5"
+  
+  # Linux-specific volume mounts
+  volumes:
+    data_path: "./data"
+    logs_path: "./logs"
+    config_path: "./config"
+
+# Network configuration
+network:
+  # Linux iptables/ufw considerations
+  ports:
+    frontend: 3000
+    backend: 8000
+    grafana: 3001
+    prometheus: 9090
+    postgres: 5432  # Internal only
+    redis: 6379     # Internal only
+  
+  # Linux networking
+  host_networking: false
+  bridge_network: "ics-network"
+  
+  # UFW firewall rules
+  ufw_rules:
+    - "ufw allow 3000/tcp"
+    - "ufw allow 8000/tcp"
+    - "ufw allow 3001/tcp"
+    - "ufw allow 9090/tcp"
+
+# Storage configuration
+storage:
+  # Linux path separators
+  base_path: "/opt/ics-platform"
+  
+  # Data directories
+  directories:
+    pcap: "data/pcap"
+    models: "data/models"
+    logs: "logs"
+    backups: "backups"
+    temp: "tmp"
+  
+  # File permissions (Linux chmod)
+  permissions:
+    data_dirs: "755"
+    log_dirs: "755"
+    config_files: "644"
+    executable_files: "755"
+  
+  # User and group
+  user: "ics-platform"
+  group: "ics-platform"
+
+# Security settings for Linux
+security:
+  # SELinux/AppArmor considerations
+  selinux_context: "container_t"
+  apparmor_profile: "docker-default"
+  
+  # System user for service
+  service_user: "ics-platform"
+  service_group: "ics-platform"
+  
+  # Systemd service security
+  systemd_security:
+    - "NoNewPrivileges=yes"
+    - "ProtectSystem=strict"
+    - "ProtectHome=yes"
+    - "PrivateTmp=yes"
+    - "ProtectKernelTunables=yes"
+    - "ProtectControlGroups=yes"
+
+# Performance tuning for Linux
+performance:
+  # Linux-specific optimizations
+  kernel_parameters:
+    - "vm.swappiness=10"
+    - "net.core.somaxconn=65535"
+    - "fs.file-max=2097152"
+  
+  # System limits
+  limits:
+    nofile: 65535
+    nproc: 32768
+    memlock: unlimited
+  
+  # Resource monitoring
+  monitoring:
+    cpu_threshold: 80
+    memory_threshold: 85
+    disk_threshold: 90
+    load_threshold: 4.0
+
+# Systemd service configuration
+systemd:
+  service_name: "ics-cybersecurity-platform"
+  
+  # Service configuration
+  service_config:
+    Type: "forking"
+    ExecStart: "/opt/ics-platform/start.sh"
+    ExecStop: "/opt/ics-platform/stop.sh"
+    ExecReload: "/opt/ics-platform/reload.sh"
+    Restart: "always"
+    RestartSec: "10"
+    User: "ics-platform"
+    Group: "ics-platform"
+    WorkingDirectory: "/opt/ics-platform"
+  
+  # Enable on boot
+  enable_on_boot: true
+
+# Backup configuration
+backup:
+  # Linux backup locations
+  locations:
+    primary: "/var/backups/ics-platform"
+    secondary: "/opt/backups/ics-platform"
+  
+  # Backup tools
+  tools:
+    database: "pg_dump"
+    files: "tar"
+    compression: "gzip"
+  
+  # Cron schedule
+  cron_schedule:
+    daily: "0 2 * * *"
+    weekly: "0 3 * * 0"
+    monthly: "0 4 1 * *"
+
+# Logging configuration
+logging:
+  # Syslog integration
+  syslog: true
+  facility: "local0"
+  
+  # Logrotate configuration
+  logrotate:
+    rotate: 30
+    size: "100M"
+    compress: true
+    delaycompress: true
+    missingok: true
+    notifempty: true
+  
+  # Log levels
+  levels:
+    application: "INFO"
+    security: "WARN"
+    performance: "DEBUG"
+    system: "INFO"
+
+# Package management
+packages:
+  # Required system packages
+  required:
+    - "docker.io"
+    - "docker-compose-plugin"
+    - "curl"
+    - "wget"
+    - "git"
+    - "htop"
+    - "iotop"
+    - "netstat-nat"
+  
+  # Optional packages
+  optional:
+    - "fail2ban"
+    - "ufw"
+    - "logwatch"
+    - "rkhunter"
+
+# Update configuration
+updates:
+  # APT configuration
+  apt_sources: "/etc/apt/sources.list.d/ics-platform.list"
+  
+  # Auto-update settings
+  unattended_upgrades: true
+  
+  # Update schedule
+  schedule:
+    security_updates: "daily"
+    package_updates: "weekly"
+    system_reboot: "monthly"
+  
+  # Maintenance window
+  maintenance_window:
+    start: "02:00"
+    end: "04:00"
+    timezone: "UTC"

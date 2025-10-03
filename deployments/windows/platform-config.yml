@@ -1,0 +1,152 @@
+# Platform-specific configuration for Windows deployment
+# This file contains Windows-optimized settings for the ICS Cybersecurity Platform
+
+platform:
+  name: "windows"
+  version: "10/11"
+  architecture: "x64"
+
+# Docker configuration for Windows
+docker:
+  # Use Windows containers or Linux containers
+  container_type: "linux"  # Recommended for cross-platform compatibility
+  
+  # Memory limits (Windows specific)
+  memory_limits:
+    backend: "1g"
+    frontend: "512m"
+    postgres: "1g"
+    redis: "256m"
+    prometheus: "512m"
+    grafana: "256m"
+  
+  # CPU limits
+  cpu_limits:
+    backend: "1.0"
+    frontend: "0.5"
+    postgres: "1.0"
+    redis: "0.5"
+    prometheus: "0.5"
+    grafana: "0.5"
+  
+  # Windows-specific volume mounts
+  volumes:
+    data_path: "./data"
+    logs_path: "./logs"
+    config_path: "./config"
+
+# Network configuration
+network:
+  # Windows firewall considerations
+  ports:
+    frontend: 3000
+    backend: 8000
+    grafana: 3001
+    prometheus: 9090
+    postgres: 5432  # Internal only
+    redis: 6379     # Internal only
+  
+  # Windows networking
+  host_networking: false
+  bridge_network: "ics-network"
+
+# Storage configuration
+storage:
+  # Windows path separators
+  base_path: "C:\\ProgramData\\ICS-Platform"
+  
+  # Data directories
+  directories:
+    pcap: "data\\pcap"
+    models: "data\\models"
+    logs: "logs"
+    backups: "backups"
+    temp: "temp"
+  
+  # File permissions (Windows ACL)
+  permissions:
+    data_dirs: "FullControl"
+    log_dirs: "Modify"
+    config_files: "Read"
+
+# Security settings for Windows
+security:
+  # Windows Defender exclusions may be needed
+  antivirus_exclusions:
+    - "C:\\ProgramData\\ICS-Platform"
+    - "Docker containers"
+  
+  # Windows service account
+  service_account: "LocalSystem"
+  
+  # Firewall rules
+  firewall_rules:
+    - port: 3000
+      protocol: "TCP"
+      direction: "Inbound"
+      action: "Allow"
+    - port: 8000
+      protocol: "TCP"
+      direction: "Inbound"
+      action: "Allow"
+
+# Performance tuning for Windows
+performance:
+  # Windows-specific optimizations
+  optimizations:
+    - "Disable Windows Search indexing for data directories"
+    - "Set high performance power plan"
+    - "Increase virtual memory if needed"
+  
+  # Resource monitoring
+  monitoring:
+    cpu_threshold: 80
+    memory_threshold: 85
+    disk_threshold: 90
+
+# Backup configuration
+backup:
+  # Windows backup locations
+  locations:
+    primary: "C:\\Backups\\ICS-Platform"
+    secondary: "D:\\Backups\\ICS-Platform"  # If available
+  
+  # Backup schedule (Windows Task Scheduler)
+  schedule:
+    daily: "02:00"
+    weekly: "Sunday 03:00"
+    monthly: "1st Sunday 04:00"
+
+# Logging configuration
+logging:
+  # Windows Event Log integration
+  event_log: true
+  
+  # Log rotation (Windows specific)
+  rotation:
+    max_size: "100MB"
+    max_files: 10
+    compress: true
+  
+  # Log levels
+  levels:
+    application: "INFO"
+    security: "WARN"
+    performance: "DEBUG"
+
+# Update configuration
+updates:
+  # Windows Update integration
+  auto_update: false
+  
+  # Update channels
+  channels:
+    stable: true
+    beta: false
+    nightly: false
+  
+  # Update schedule
+  schedule:
+    check_interval: "daily"
+    install_time: "03:00"
+    restart_required: true
