@@ -15,7 +15,6 @@ import NetworkTopology from './components/NetworkTopology'
 import ChatBot from './components/ChatBot'
 import NotificationCenter from './components/NotificationCenter'
 import AdminDashboard from './components/AdminDashboard'
-import PCAPManagement from './components/PCAPManagement'
 
 function App() {
   const [currentPage, setCurrentPage] = useState('dashboard')
@@ -96,8 +95,6 @@ function App() {
         return <AIModels {...pageProps} />
       case 'topology':
         return <NetworkTopology {...pageProps} />
-      case 'pcap':
-        return <PCAPManagement {...pageProps} />
       default:
         return <Dashboard {...pageProps} />
     }

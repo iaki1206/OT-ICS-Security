@@ -5,10 +5,7 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import JSONResponse
 import time
 from typing import Callable
-import sys
-from pathlib import Path
-sys.path.append(str(Path(__file__).parent.parent))
-from utils.security import SecurityValidator, RateLimiter, SECURITY_HEADERS, generate_csp_header
+from ..utils.security import SecurityValidator, RateLimiter, SECURITY_HEADERS, generate_csp_header
 import logging
 
 logger = logging.getLogger(__name__)

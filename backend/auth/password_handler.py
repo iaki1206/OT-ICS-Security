@@ -3,7 +3,7 @@ from passlib.hash import bcrypt
 from typing import Optional
 import secrets
 import string
-from core.config import settings
+from ..core.config import settings
 from loguru import logger
 
 

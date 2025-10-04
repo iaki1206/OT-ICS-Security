@@ -2,8 +2,8 @@ from typing import Optional, List, Callable
 from fastapi import Depends, HTTPException, status, Request
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
-from database.database import get_db
-from database.models import User, UserSession
+from ..database.database import get_db
+from ..database.models import User, UserSession
 from .jwt_handler import jwt_handler
 from .auth_service import auth_service
 from loguru import logger

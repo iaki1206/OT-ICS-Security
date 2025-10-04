@@ -3,10 +3,10 @@ from datetime import datetime, timedelta
 from sqlalchemy.orm import Session
 from sqlalchemy import and_, or_
 from fastapi import HTTPException, status
-from database.models import User, UserSession, PasswordResetToken
+from ..database.models import User, UserSession, PasswordResetToken
 from .jwt_handler import jwt_handler
 from .password_handler import password_handler
-from core.config import settings
+from ..core.config import settings
 from loguru import logger
 import secrets
 import hashlib
@@ -378,10 +378,10 @@ class AuthService:
             ],
             "security_analyst": [
                 "read:threats", "write:threats", "read:devices", 
-                "read:pcap", "view:analytics", "manage:alerts"
+                "view:analytics", "manage:alerts"
             ],
             "analyst": [
-                "read:threats", "read:devices", "read:pcap", "view:analytics"
+                "read:threats", "read:devices", "view:analytics"
             ],
             "operator": [
                 "read:devices", "read:alerts", "write:devices"

@@ -8,8 +8,7 @@ import {
   Radar,
   ChevronLeft,
   ChevronRight,
-  Zap,
-  FileText
+  Zap
 } from 'lucide-react'
 
 const Sidebar = ({ currentPage, setCurrentPage, collapsed, setCollapsed }) => {
@@ -50,12 +49,6 @@ const Sidebar = ({ currentPage, setCurrentPage, collapsed, setCollapsed }) => {
       icon: AlertTriangle,
       description: 'Network Visualization'
     },
-    {
-      id: 'pcap',
-      label: 'PCAP Management',
-      icon: FileText,
-      description: 'Network Captures'
-    }
   ]
 
   return (

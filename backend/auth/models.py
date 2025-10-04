@@ -339,7 +339,6 @@ class PermissionResponse(BaseModel):
                 "permissions": [
                     "read:threats",
                     "read:devices",
-                    "read:pcap",
                     "view:analytics"
                 ],
                 "role": "analyst"

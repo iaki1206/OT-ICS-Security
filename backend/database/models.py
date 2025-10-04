@@ -8,8 +8,41 @@ from sqlalchemy import (
 )
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, Session
-from sqlalchemy.dialects.postgresql import UUID, INET, JSONB
 import uuid
+
+# SQLite compatibility overrides for PostgreSQL-specific types
+from sqlalchemy.types import TypeDecorator, CHAR
+from sqlalchemy import JSON as SA_JSON
+from ..core.config import settings
+
+# Provide cross-backend compatible type aliases unconditionally
+class GUID(TypeDecorator):
+    """Platform-independent GUID type for both PostgreSQL and SQLite"""
+    impl = CHAR(36)
+    cache_ok = True
+
+    def process_bind_param(self, value, dialect):
+        if value is None:
+            return value
+        if isinstance(value, uuid.UUID):
+            return str(value)
+        return str(value)
+
+    def process_result_value(self, value, dialect):
+        if value is None:
+            return value
+        try:
+            return uuid.UUID(value)
+        except Exception:
+            return value
+
+# UUID(as_uuid=True) signature supported but ignored by GUID()
+
+def UUID(**kwargs):
+    return GUID()
+
+INET = String(45)
+JSONB = SA_JSON
 
 Base = declarative_base()
 
@@ -49,12 +82,6 @@ class DeviceType(str, Enum):
     FIREWALL = "FIREWALL"
     OTHER = "OTHER"
 
-class PCAPStatus(str, Enum):
-    """PCAP file processing status"""
-    UPLOADED = "UPLOADED"
-    PROCESSING = "PROCESSING"
-    PROCESSED = "PROCESSED"
-    FAILED = "FAILED"
 
 class ProtocolType(str, Enum):
     """Network protocol types"""
@@ -166,49 +193,12 @@ class Device(Base):
     def __repr__(self):
         return f"<Device(name='{self.name}', ip='{self.ip_address}', status='{self.status}')>"
 
-class PCAPFile(Base):
-    """PCAP file storage model"""
-    __tablename__ = "pcap_files"
-    
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    filename = Column(String(255), nullable=False)
-    file_path = Column(String(500), nullable=False)
-    file_size = Column(Integer, nullable=False)  # Size in bytes
-    packet_count = Column(Integer, default=0, nullable=False)
-    capture_start_time = Column(DateTime(timezone=True), nullable=True)
-    capture_end_time = Column(DateTime(timezone=True), nullable=True)
-    capture_duration = Column(Float, nullable=True)  # Duration in seconds
-    capture_interface = Column(String(50), nullable=True)
-    created_at = Column(DateTime(timezone=True), default=datetime.utcnow, nullable=False)
-    processed_at = Column(DateTime(timezone=True), nullable=True)
-    is_processed = Column(Boolean, default=False, nullable=False)
-    
-    # Analysis results
-    analysis_results = Column(JSONB, nullable=True)
-    threat_count = Column(Integer, default=0, nullable=False)
-    
-    # File metadata
-    checksum = Column(String(64), nullable=True)  # SHA-256 checksum
-    file_metadata = Column(JSONB, nullable=True)
-    
-    # Relationships
-    network_packets = relationship("NetworkPacket", back_populates="pcap_file")
-    
-    # Indexes
-    __table_args__ = (
-        Index('idx_pcap_filename', 'filename'),
-        Index('idx_pcap_created_processed', 'created_at', 'is_processed'),
-    )
-    
-    def __repr__(self):
-        return f"<PCAPFile(filename='{self.filename}', packets={self.packet_count})>"
 
 class NetworkPacket(Base):
     """Network packet model"""
     __tablename__ = "network_packets"
     
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    pcap_file_id = Column(UUID(as_uuid=True), ForeignKey('pcap_files.id'), nullable=True)
     source_device_id = Column(UUID(as_uuid=True), ForeignKey('devices.id'), nullable=True)
     
     # Packet metadata
@@ -248,7 +238,6 @@ class NetworkPacket(Base):
     raw_packet_hex = Column(Text, nullable=True)
     
     # Relationships
-    pcap_file = relationship("PCAPFile", back_populates="network_packets")
     source_device = relationship("Device", back_populates="network_packets")
     threat_alerts = relationship("ThreatAlert", back_populates="related_packet")
     

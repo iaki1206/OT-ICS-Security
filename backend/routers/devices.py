@@ -7,10 +7,10 @@ from loguru import logger
 from pydantic import BaseModel, Field, IPvAnyAddress
 from enum import Enum
 
-from database.database import get_async_db
-from auth import get_current_active_user, require_permission
-from database.models import User, Device, DeviceStatus, DeviceType
-from core.config import settings
+from ..database.database import get_async_db
+from ..auth import get_current_active_user, require_permission
+from ..database.models import User, Device, DeviceStatus, DeviceType
+from ..core.config import settings
 router = APIRouter(prefix="/devices", tags=["Device Management"])
 
 

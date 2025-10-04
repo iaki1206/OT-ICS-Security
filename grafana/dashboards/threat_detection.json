@@ -1,0 +1,35 @@
+{
+  "uid": "threat-detection",
+  "title": "Threat Detection",
+  "timezone": "browser",
+  "panels": [
+    {
+      "type": "stat",
+      "title": "Threat Analysis Requests",
+      "gridPos": {"x": 0, "y": 0, "w": 6, "h": 4},
+      "targets": [
+        {"expr": "sum(threat_analysis_requests_total)", "legendFormat": "requests"}
+      ]
+    },
+    {
+      "type": "stat",
+      "title": "Threats Detected (Total)",
+      "gridPos": {"x": 6, "y": 0, "w": 6, "h": 4},
+      "targets": [
+        {"expr": "sum(threats_detected_total)", "legendFormat": "detected"}
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Threat Analysis Duration",
+      "gridPos": {"x": 0, "y": 4, "w": 12, "h": 8},
+      "fieldConfig": {"defaults": {"unit": "s"}},
+      "targets": [
+        {"expr": "histogram_quantile(0.95, sum(rate(threat_analysis_duration_seconds_bucket[5m])) by (le))", "legendFormat": "p95"},
+        {"expr": "histogram_quantile(0.50, sum(rate(threat_analysis_duration_seconds_bucket[5m])) by (le))", "legendFormat": "p50"}
+      ]
+    }
+  ],
+  "schemaVersion": 38,
+  "version": 1
+}

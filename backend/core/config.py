@@ -45,22 +45,14 @@ class Settings(BaseSettings):
     
     # File Storage
     UPLOAD_DIR: str = "/app/uploads"
-    PCAP_STORAGE_DIR: str = "/app/pcap_files"
-    PCAP_STORAGE_PATH: str = "/app/pcap_files"
     MODEL_STORAGE_DIR: str = "/app/models"
     MAX_FILE_SIZE: int = 100 * 1024 * 1024  # 100MB
-    MAX_PCAP_FILE_SIZE: int = 500 * 1024 * 1024  # 500MB
-    
-    # PCAP Capture Settings
+
+    # Capture Settings
     CAPTURE_INTERFACE: str = "eth0"
     CAPTURE_BUFFER_SIZE: int = 1024 * 1024  # 1MB
     CAPTURE_TIMEOUT: int = 1000  # milliseconds
     MAX_PACKETS_PER_FILE: int = 10000
-    PCAP_ROTATION_TIME: int = 3600  # seconds (1 hour)
-    MAX_PCAP_FILES_TO_KEEP: int = 15
-    PCAP_USE_WIRESHARK: bool = True
-    PCAP_AUTO_CLEANUP: bool = True
-    PCAP_ARCHIVE_OLD_FILES: bool = False
     
     # Machine Learning
     ML_MODEL_DIR: str = "/app/models"
@@ -116,5 +108,5 @@ class Settings(BaseSettings):
 settings = Settings()
 
 # Ensure directories exist
-for directory in [settings.UPLOAD_DIR, settings.PCAP_STORAGE_DIR, settings.MODEL_STORAGE_DIR]:
+for directory in [settings.UPLOAD_DIR, settings.MODEL_STORAGE_DIR]:
     Path(directory).mkdir(parents=True, exist_ok=True)

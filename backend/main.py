@@ -2,7 +2,8 @@ from fastapi import FastAPI, Request, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, Response
+from prometheus_client import CONTENT_TYPE_LATEST, generate_latest
 from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi.openapi.utils import get_openapi
 from contextlib import asynccontextmanager
@@ -10,19 +11,16 @@ import time
 import uvicorn
 from loguru import logger
 import sys
-from pathlib import Path
 
-# Add the backend directory to Python path
-sys.path.append(str(Path(__file__).parent))
+from .services.nmap_service import NmapService
 
-from core.config import settings
-from database.database import DatabaseManager, init_database, close_database
-from auth.middleware import AuthMiddleware, RateLimitMiddleware, SecurityHeadersMiddleware
-from middleware.security_middleware import SecurityMiddleware, InputValidationMiddleware, CORS_CONFIG
-from utils.security import RateLimiter
-from routers import auth, devices, threats, pcap, network
-from services.pcap_service import PCAPService
-from services.ml_service import MLService
+from .core.config import settings
+from .database.database import init_database, close_database, check_database_health
+from .auth.middleware import AuthMiddleware, RateLimitMiddleware, SecurityHeadersMiddleware
+from .middleware.security_middleware import SecurityMiddleware, InputValidationMiddleware, CORS_CONFIG
+from .utils.security import RateLimiter
+from .routers import auth, devices, threats, network
+from .services.ml_service import MLService
 
 # settings is already imported from core.config
 
@@ -54,12 +52,12 @@ async def lifespan(app: FastAPI):
         logger.info("Database initialized successfully")
         
         # Initialize services
-        pcap_service = PCAPService()
         ml_service = MLService()
+        nmap_service = NmapService()
         
         # Store services in app state
-        app.state.pcap_service = pcap_service
         app.state.ml_service = ml_service
+        app.state.nmap_service = nmap_service
         
         logger.info("Services initialized successfully")
         logger.info("ICS Cybersecurity Platform started successfully")
@@ -79,10 +77,10 @@ async def lifespan(app: FastAPI):
         logger.info("Database connections closed")
         
         # Cleanup services
-        if hasattr(app.state, 'pcap_service'):
-            await app.state.pcap_service.cleanup()
         if hasattr(app.state, 'ml_service'):
             await app.state.ml_service.cleanup()
+        if hasattr(app.state, 'nmap_service'):
+            await app.state.nmap_service.cleanup()
         
         logger.info("Services cleaned up successfully")
         logger.info("ICS Cybersecurity Platform shut down successfully")
@@ -232,17 +230,15 @@ async def detailed_health_check():
     }
     
     try:
-        # Check database connection
-        db_manager = DatabaseManager()
-        db_healthy = await db_manager.test_connection()
-        health_status["services"]["database"] = "healthy" if db_healthy else "unhealthy"
-        
-        # Check PCAP service
-        if hasattr(app.state, 'pcap_service'):
-            pcap_healthy = await app.state.pcap_service.health_check()
-            health_status["services"]["pcap_service"] = "healthy" if pcap_healthy else "unhealthy"
-        else:
-            health_status["services"]["pcap_service"] = "not_initialized"
+        # Check database connection using shared health utility
+        db_health = await check_database_health()
+        health_status["services"]["database"] = db_health.get("database", "unhealthy")
+        if settings.ENVIRONMENT != "production":
+            health_status["services"]["database_details"] = {
+                "sync_connection": db_health.get("sync_connection"),
+                "async_connection": db_health.get("async_connection"),
+                "url": db_health.get("url"),
+            }
         
         # Check ML service
         if hasattr(app.state, 'ml_service'):
@@ -293,13 +289,17 @@ if settings.ENVIRONMENT != "production":
 
 
 # API routes
+@app.get("/metrics", include_in_schema=False)
+async def metrics_endpoint():
+    """Prometheus metrics endpoint"""
+    return Response(generate_latest(), media_type=CONTENT_TYPE_LATEST)
+
 api_prefix = "/api/v1"
 
 # Include routers
 app.include_router(auth.router, prefix=api_prefix)
 app.include_router(devices.router, prefix=api_prefix)
 app.include_router(threats.router, prefix=api_prefix)
-app.include_router(pcap.router, prefix=api_prefix)
 app.include_router(network.router, prefix=api_prefix)
 
 
@@ -318,22 +318,12 @@ async def root():
             "authentication": f"{api_prefix}/auth",
             "devices": f"{api_prefix}/devices",
             "threats": f"{api_prefix}/threats",
-            "pcap": f"{api_prefix}/pcap",
             "network": f"{api_prefix}/network"
         }
     }
 
 
 # Dependency injection for services
-def get_pcap_service() -> PCAPService:
-    """Get PCAP service instance"""
-    if not hasattr(app.state, 'pcap_service'):
-        raise HTTPException(
-            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            detail="PCAP service not available"
-        )
-    return app.state.pcap_service
-
 
 def get_ml_service() -> MLService:
     """Get ML service instance"""
@@ -345,12 +335,21 @@ def get_ml_service() -> MLService:
     return app.state.ml_service
 
 
-# Add dependency overrides for services
-from routers.pcap import PCAPService as PCAPServiceDep
-from routers.network import PCAPService as NetworkPCAPServiceDep
+def get_nmap_service() -> NmapService:
+    """Get Nmap service instance"""
+    if not hasattr(app.state, 'nmap_service'):
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Nmap service not available"
+        )
+    return app.state.nmap_service
 
-app.dependency_overrides[PCAPServiceDep] = get_pcap_service
-app.dependency_overrides[NetworkPCAPServiceDep] = get_pcap_service
+
+# Add dependency overrides for services
+from .routers.network import NmapService as NetworkNmapServiceDep
+
+app.dependency_overrides[NetworkNmapServiceDep] = get_nmap_service
+app.dependency_overrides[MLService] = get_ml_service
 
 
 if __name__ == "__main__":

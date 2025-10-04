@@ -3,20 +3,16 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List, Optional
 from loguru import logger
-import sys
-from pathlib import Path
-sys.path.append(str(Path(__file__).parent.parent))
-
-from database.database import get_async_db
-from auth import AuthService, get_current_user, get_current_active_user, require_role
-from auth.models import (
+from ..database.database import get_async_db
+from ..auth import AuthService, get_current_user, get_current_active_user, require_role
+from ..auth.models import (
     UserCreate, UserLogin, UserResponse, LoginResponse, TokenResponse,
     RefreshTokenRequest, ChangePasswordRequest, PasswordResetRequest,
     PasswordResetConfirm, UserUpdate, SessionResponse, PermissionResponse,
     APIResponse, UserRole
 )
-from database.models import User
-from core.config import settings
+from ..database.models import User
+from ..core.config import settings
 
 # settings is already imported from core.config
 security = HTTPBearer()

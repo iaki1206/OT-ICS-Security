@@ -4,10 +4,10 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import JSONResponse
 from sqlalchemy.orm import Session
-from database.database import get_db
-from database.models import User, UserSession
+from ..database.database import get_db
+from ..database.models import User, UserSession
 from .jwt_handler import jwt_handler
-from core.config import settings
+from ..core.config import settings
 from loguru import logger
 from datetime import datetime
 import time
@@ -34,6 +34,11 @@ class AuthMiddleware(BaseHTTPMiddleware):
         
         # Skip authentication for excluded paths
         if any(request.url.path.startswith(path) for path in self.exclude_paths):
+            response = await call_next(request)
+            return response
+        
+        # Bypass authentication for CORS preflight requests
+        if request.method == "OPTIONS":
             response = await call_next(request)
             return response
         
@@ -218,6 +223,10 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
         # Get client identifier
         client_id = self._get_client_id(request)
         current_time = time.time()
+        
+        # Bypass rate limiting for CORS preflight requests
+        if request.method == "OPTIONS":
+            return await call_next(request)
         
         # Clean old entries
         self._cleanup_old_requests(current_time)

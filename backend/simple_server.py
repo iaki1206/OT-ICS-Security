@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Response
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 from datetime import datetime
@@ -8,88 +8,93 @@ app = FastAPI(title="ICS Cybersecurity Platform API")
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=["http://localhost:5173", "http://localhost:5174", "http://localhost:5175"],
+    allow_origin_regex=r"^https?://(localhost|127\.0\.0\.1):\d+$",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Mock data for testing
-mock_files = [
-    {"id": 1, "name": "capture_001.pcap", "size": 1024000, "created_at": "2024-01-15T10:30:00Z"},
-    {"id": 2, "name": "capture_002.pcap", "size": 2048000, "created_at": "2024-01-15T11:45:00Z"},
-    {"id": 3, "name": "capture_003.pcap", "size": 512000, "created_at": "2024-01-15T14:20:00Z"}
-]
 
-mock_stats = {
-    "total_files": 3,
-    "total_size": 3584000,
-    "captures_today": 5,
-    "threats_detected": 2
-}
+# Stubbed Network scan endpoints for development
+@app.post("/api/v1/network/scan/host")
+async def scan_host(payload: dict):
+    target_ip = payload.get("target_ip")
+    ports = payload.get("ports", [])
+    args = payload.get("arguments", "")
+    if not target_ip:
+        raise HTTPException(status_code=400, detail="target_ip is required")
+    scan_id = f"scan-{int(datetime.utcnow().timestamp() * 1000)}"
+    # Initialize store if not present
+    if not hasattr(app.state, "network_scans"):
+        app.state.network_scans = {}
+    result = {
+        "scan_id": scan_id,
+        "scan_type": "HOST",
+        "target": target_ip,
+        "status": "COMPLETED",
+        "started_at": datetime.utcnow().isoformat() + "Z",
+        "completed_at": datetime.utcnow().isoformat() + "Z",
+        "open_ports": [
+            {"port": 22, "protocol": "tcp", "service": "ssh"},
+            {"port": 80, "protocol": "tcp", "service": "http"},
+            {"port": 443, "protocol": "tcp", "service": "https"}
+        ],
+        "arguments": args,
+        "ports": ports,
+    }
+    app.state.network_scans[scan_id] = result
+    return result
 
-mock_capture_status = {
-    "status": "idle",
-    "interface": "eth0",
-    "packets_captured": 0,
-    "duration": 0
-}
+@app.post("/api/v1/network/scan/subnet")
+async def scan_subnet(payload: dict):
+    subnet_cidr = payload.get("subnet_cidr")
+    args = payload.get("arguments", "")
+    if not subnet_cidr:
+        raise HTTPException(status_code=400, detail="subnet_cidr is required")
+    scan_id = f"scan-{int(datetime.utcnow().timestamp() * 1000)}"
+    if not hasattr(app.state, "network_scans"):
+        app.state.network_scans = {}
+    result = {
+        "scan_id": scan_id,
+        "scan_type": "SUBNET",
+        "target": subnet_cidr,
+        "status": "COMPLETED",
+        "started_at": datetime.utcnow().isoformat() + "Z",
+        "completed_at": datetime.utcnow().isoformat() + "Z",
+        "hosts": [
+            {
+                "ip": "192.168.1.10",
+                "open_ports": [
+                    {"port": 502, "protocol": "tcp", "service": "modbus"},
+                    {"port": 80, "protocol": "tcp", "service": "http"}
+                ]
+            },
+            {
+                "ip": "192.168.1.20",
+                "open_ports": [
+                    {"port": 22, "protocol": "tcp", "service": "ssh"}
+                ]
+            }
+        ],
+        "arguments": args,
+    }
+    app.state.network_scans[scan_id] = result
+    return result
 
-# PCAP endpoints
-@app.get("/api/v1/pcap/")
-async def get_pcap_files(limit: int = None):
-    files = mock_files
-    if limit:
-        files = files[:limit]
-    return {"files": files}
+@app.get("/api/v1/network/scans")
+async def list_scans(status_filter: str = None, limit: int = 20):
+    scans = list(getattr(app.state, "network_scans", {}).values())
+    if status_filter:
+        scans = [s for s in scans if s.get("status") == status_filter]
+    return {"items": scans[:limit], "total": len(scans)}
 
-@app.get("/api/v1/pcap/stats")
-async def get_pcap_stats():
-    return mock_stats
-
-@app.get("/api/v1/pcap/capture/status")
-async def get_capture_status():
-    return mock_capture_status
-
-@app.post("/api/v1/pcap/capture/start")
-async def start_capture(config: dict = None):
-    return {"message": "Capture started", "status": "running"}
-
-@app.post("/api/v1/pcap/capture/stop")
-async def stop_capture():
-    return {"message": "Capture stopped", "status": "idle"}
-
-@app.post("/api/v1/pcap/training/start")
-async def start_training(config: dict = None):
-    return {"message": "Training started", "status": "running"}
-
-@app.get("/api/v1/pcap/training/status")
-async def get_training_status():
-    return {"status": "idle", "progress": 0, "accuracy": 0.95}
-
-@app.post("/api/v1/pcap/export")
-async def export_files(config: dict = None):
-    return {"message": "Export started", "download_url": "/api/v1/pcap/download/export.zip"}
-
-@app.post("/api/v1/pcap/upload")
-async def upload_file():
-    return {"message": "File uploaded successfully", "file_id": 4}
-
-@app.get("/api/v1/pcap/{file_id}")
-async def get_file(file_id: int):
-    return {"id": file_id, "name": f"file_{file_id}.pcap", "size": 1024000}
-
-@app.get("/api/v1/pcap/{file_id}/download")
-async def download_file(file_id: int):
-    return {"message": "File download started", "file_id": file_id}
-
-@app.delete("/api/v1/pcap/{file_id}")
-async def delete_file(file_id: int):
-    return {"message": "File deleted successfully", "file_id": file_id}
-
-@app.post("/api/v1/pcap/{file_id}/analyze")
-async def analyze_file(file_id: int, analysis_request: dict = None):
-    return {"message": "Analysis started", "file_id": file_id, "analysis_id": "analysis_123"}
+@app.get("/api/v1/network/scans/{scan_id}")
+async def get_scan(scan_id: str):
+    scan = getattr(app.state, "network_scans", {}).get(scan_id)
+    if not scan:
+        raise HTTPException(status_code=404, detail="Scan not found")
+    return scan
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)

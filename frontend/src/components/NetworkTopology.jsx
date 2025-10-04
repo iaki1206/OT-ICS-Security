@@ -20,6 +20,7 @@ import {
   Filter
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { networkAPI } from '@/utils/api'
 
 const NetworkTopology = ({ systemStatus }) => {
   const [selectedNode, setSelectedNode] = useState(null)
@@ -33,6 +34,7 @@ const NetworkTopology = ({ systemStatus }) => {
   const [showMonitorModal, setShowMonitorModal] = useState(false)
   const [selectedConfigOption, setSelectedConfigOption] = useState('')
   const [monitoringData, setMonitoringData] = useState(null)
+  const [hostScanResults, setHostScanResults] = useState(null)
 
   // Sample network topology data
   useEffect(() => {
@@ -295,6 +297,23 @@ const NetworkTopology = ({ systemStatus }) => {
       }))
       setIsScanning(false)
     }, 3000)
+  }
+
+  const handleScanHost = async () => {
+    try {
+      if (!selectedNode?.ip) {
+        alert('Please select a device with an IP address to scan.')
+        return
+      }
+      setIsScanning(true)
+      const res = await networkAPI.scanHost({ target_ip: selectedNode.ip })
+      setHostScanResults(res)
+    } catch (err) {
+      console.error('Host scan failed:', err)
+      alert('Host scan failed. Check console for details.')
+    } finally {
+      setIsScanning(false)
+    }
   }
 
   const handleExportTopology = () => {
@@ -665,6 +684,15 @@ const NetworkTopology = ({ systemStatus }) => {
                   </Button>
                   <Button 
                     variant="outline" 
+                    className="w-full mb-2" 
+                    size="sm"
+                    onClick={handleScanHost}
+                  >
+                    <Network className="w-4 h-4 mr-2" />
+                    Scan Host
+                  </Button>
+                  <Button 
+                    variant="outline" 
                     className="w-full" 
                     size="sm"
                     onClick={() => handleMonitorDevice(selectedNode)}
@@ -672,6 +700,28 @@ const NetworkTopology = ({ systemStatus }) => {
                     <Eye className="w-4 h-4 mr-2" />
                     Monitor
                   </Button>
+
+                  {isScanning && (
+                    <p className="text-slate-400 text-sm mt-2">Scanning host...</p>
+                  )}
+
+                  {hostScanResults && hostScanResults.target === selectedNode?.ip && (
+                    <div className="mt-3">
+                      <h4 className="text-white font-medium mb-2">Open Ports</h4>
+                      <div className="space-y-1">
+                        {hostScanResults.open_ports && hostScanResults.open_ports.length > 0 ? (
+                          hostScanResults.open_ports.map((p, idx) => (
+                            <div key={`${p.port}-${p.protocol}-${idx}`} className="flex justify-between text-sm">
+                              <span className="text-slate-400">Port {p.port}/{p.protocol}</span>
+                              <span className="text-white">{p.service}</span>
+                            </div>
+                          ))
+                        ) : (
+                          <p className="text-slate-400 text-sm">No open ports found.</p>
+                        )}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

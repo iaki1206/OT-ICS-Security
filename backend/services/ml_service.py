@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 from typing import List, Dict, Optional, Tuple, Any
 from pathlib import Path
 import json
+import gc
 
 import numpy as np
 import pandas as pd
@@ -14,16 +15,33 @@ from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.cluster import DBSCAN
-import tensorflow as tf
-from tensorflow import keras
-from tensorflow.keras import layers, models
-import torch
-import torch.nn as nn
-import torch.optim as optim
-from torch.utils.data import DataLoader, TensorDataset
+try:
+    import tensorflow as tf
+    from tensorflow import keras
+    from tensorflow.keras import layers, models
+    TENSORFLOW_AVAILABLE = True
+except Exception:
+    TENSORFLOW_AVAILABLE = False
+    tf = None
+    keras = None
+    layers = None
+    models = None
+try:
+    import torch
+    import torch.nn as nn
+    import torch.optim as optim
+    from torch.utils.data import DataLoader, TensorDataset
+    TORCH_AVAILABLE = True
+except Exception:
+    TORCH_AVAILABLE = False
+    torch = None
+    nn = None
+    optim = None
+    DataLoader = None
+    TensorDataset = None
 from loguru import logger
 
-from core.config import settings
+from ..core.config import settings
 
 class NetworkTrafficLSTM(nn.Module):
     """LSTM model for network traffic anomaly detection"""
@@ -107,7 +125,7 @@ class MLService:
         self.encoders = {}
         self.model_metadata = {}
         self.training_data = []
-        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        self.device = (torch.device('cuda' if torch and torch.cuda.is_available() else 'cpu') if TORCH_AVAILABLE else 'cpu')
         
         # Model paths
         self.model_dir = Path(settings.ML_MODEL_DIR)
@@ -659,6 +677,70 @@ class MLService:
                 model_info[f'{model_name}_type'] = 'Keras'
                 
         return model_info
+        
+    async def health_check(self) -> bool:
+        """Perform a lightweight health check for the ML service.
+        Ensures model directory exists, default models are initialized, and a simple
+        prediction pipeline runs without errors.
+        """
+        try:
+            # Ensure model directory exists
+            if not self.model_dir.exists():
+                self.model_dir.mkdir(parents=True, exist_ok=True)
+
+            # Lazily initialize default models if not yet initialized
+            if not self.models:
+                await self._initialize_default_models()
+
+            # Build a minimal sample and run through the analysis pipeline
+            sample = {
+                'timestamp': int(datetime.now().timestamp()),
+                'protocol': 'TCP',
+                'flags': 'S',
+                'src_ip': '127.0.0.1',
+                'dst_ip': '127.0.0.1',
+                'dst_port': 80,
+                'payload_size': 10,
+                'is_modbus': False,
+                'is_s7': False,
+                'is_dnp3': False,
+            }
+
+            preds = await self.analyze_network_traffic([sample])
+            # If the pipeline returns a list with at least one prediction dict, consider healthy
+            return isinstance(preds, list) and len(preds) > 0 and isinstance(preds[0], dict)
+        except Exception as e:
+            logger.error(f"MLService health_check failed: {e}")
+            return False
+
+    async def cleanup(self):
+        """Cleanup ML resources (models, GPU memory, TF sessions)."""
+        try:
+            # Clear TensorFlow/Keras sessions if available
+            if TENSORFLOW_AVAILABLE:
+                try:
+                    tf.keras.backend.clear_session()
+                except Exception:
+                    pass
+
+            # Clear PyTorch CUDA cache if available
+            if TORCH_AVAILABLE and torch.cuda.is_available():
+                try:
+                    torch.cuda.empty_cache()
+                except Exception:
+                    pass
+
+            # Release references to models, scalers, encoders
+            self.models.clear()
+            self.scalers.clear()
+            self.encoders.clear()
+
+            # Run garbage collection
+            gc.collect()
+
+            logger.info("MLService resources cleaned up successfully")
+        except Exception as e:
+            logger.error(f"Error during MLService cleanup: {e}")
         
     async def predict_single(self, features: Dict) -> Dict:
         """Make prediction for a single feature set"""

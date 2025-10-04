@@ -8,8 +8,8 @@ from sqlalchemy.orm import sessionmaker, Session
 from sqlalchemy.pool import StaticPool
 from loguru import logger
 
-from core.config import settings
-from database.models import Base, create_tables
+from ..core.config import settings
+from .models import Base, create_tables
 
 class DatabaseManager:
     """Database manager for handling connections and sessions"""
@@ -24,16 +24,29 @@ class DatabaseManager:
     async def initialize(self):
         """Initialize database connections"""
         try:
+            url = settings.DATABASE_URL
+
+            # Determine sync and async URLs based on backend
+            if 'postgresql' in url:
+                sync_url = url
+                async_url = url.replace('postgresql://', 'postgresql+asyncpg://')
+            elif 'sqlite' in url:
+                # Ensure async driver for sqlite
+                sync_url = url.replace('sqlite+aiosqlite://', 'sqlite://')
+                async_url = url if 'aiosqlite' in url else url.replace('sqlite://', 'sqlite+aiosqlite://')
+            else:
+                sync_url = url
+                async_url = url
+            
             # Create synchronous engine
             self.engine = create_engine(
-                settings.DATABASE_URL,
+                sync_url,
                 pool_pre_ping=True,
                 pool_recycle=300,
                 echo=settings.DATABASE_ECHO
             )
             
             # Create asynchronous engine
-            async_url = settings.DATABASE_URL.replace('postgresql://', 'postgresql+asyncpg://')
             self.async_engine = create_async_engine(
                 async_url,
                 pool_pre_ping=True,
@@ -45,7 +58,7 @@ class DatabaseManager:
             @event.listens_for(self.engine, "connect", once=True)
             def set_sqlite_pragma(dbapi_connection, connection_record):
                 """Set SQLite pragmas if using SQLite"""
-                if 'sqlite' in settings.DATABASE_URL:
+                if self.engine.dialect.name == 'sqlite':
                     cursor = dbapi_connection.cursor()
                     cursor.execute("PRAGMA foreign_keys=ON")
                     cursor.close()
@@ -53,7 +66,7 @@ class DatabaseManager:
             @event.listens_for(self.engine, "connect")
             def set_postgresql_search_path(dbapi_connection, connection_record):
                 """Set PostgreSQL search path"""
-                if 'postgresql' in settings.DATABASE_URL:
+                if self.engine.dialect.name == 'postgresql':
                     with dbapi_connection.cursor() as cursor:
                         cursor.execute("SET search_path TO public")
             
@@ -80,7 +93,46 @@ class DatabaseManager:
             logger.info("Database initialized successfully")
             
         except Exception as e:
-            logger.error(f"Failed to initialize database: {e}")
+            logger.error(f"Failed to initialize database with URL {settings.DATABASE_URL}: {e}")
+            # Try fallback to SQLite in development if primary DB is unavailable
+            try:
+                if settings.ENVIRONMENT != 'production':
+                    fallback_url_async = "sqlite+aiosqlite:///ics_local.db"
+                    fallback_url_sync = fallback_url_async.replace('sqlite+aiosqlite://', 'sqlite://')
+                    logger.warning("Falling back to local SQLite database file 'ics_local.db' for development")
+                    # Recreate engines with fallback
+                    self.engine = create_engine(
+                        fallback_url_sync,
+                        pool_pre_ping=True,
+                        pool_recycle=300,
+                        echo=settings.DATABASE_ECHO
+                    )
+                    self.async_engine = create_async_engine(
+                        fallback_url_async,
+                        pool_pre_ping=True,
+                        pool_recycle=300,
+                        echo=settings.DATABASE_ECHO
+                    )
+                    # Session factories
+                    self.SessionLocal = sessionmaker(
+                        autocommit=False,
+                        autoflush=False,
+                        bind=self.engine
+                    )
+                    self.AsyncSessionLocal = async_sessionmaker(
+                        self.async_engine,
+                        class_=AsyncSession,
+                        expire_on_commit=False
+                    )
+                    # Create tables and test
+                    await self._create_tables()
+                    await self._test_connection()
+                    self._initialized = True
+                    logger.info("Database initialized successfully with SQLite fallback")
+                    return
+            except Exception as e2:
+                logger.error(f"SQLite fallback failed: {e2}")
+            # Fallback not applicable or failed, re-raise original error
             raise
     
     async def _create_tables(self):
@@ -190,12 +242,12 @@ async def check_database_health() -> dict:
     try:
         # Test synchronous connection
         with db_manager.engine.connect() as conn:
-            result = conn.execute("SELECT 1 as health_check")
+            result = conn.execute(text("SELECT 1 as health_check"))
             sync_status = "healthy" if result.fetchone() else "unhealthy"
         
         # Test asynchronous connection
         async with db_manager.async_engine.begin() as conn:
-            result = await conn.execute("SELECT 1 as health_check")
+            result = await conn.execute(text("SELECT 1 as health_check"))
             async_status = "healthy" if await result.fetchone() else "unhealthy"
         
         return {
@@ -282,7 +334,7 @@ class DatabaseUtils:
             # Validate table and column names to prevent SQL injection
             allowed_tables = {
                 'network_events', 'threat_detections', 'audit_logs', 
-                'pcap_files', 'ml_predictions', 'system_metrics'
+                'ml_predictions', 'system_metrics'
             }
             allowed_columns = {
                 'created_at', 'timestamp', 'detected_at', 'logged_at'

@@ -5,15 +5,12 @@ const API_BASE_URL = 'http://localhost:8000/api/v1'
 // Get authentication headers
 const getAuthHeaders = () => {
   const token = localStorage.getItem('token')
-  // For simple server, don't send auth headers if no token
+  // Only include Authorization if a token exists; avoid setting Content-Type on GET to prevent unnecessary CORS preflights
   if (!token) {
-    return {
-      'Content-Type': 'application/json'
-    }
+    return {}
   }
   return {
-    'Authorization': `Bearer ${token}`,
-    'Content-Type': 'application/json'
+    'Authorization': `Bearer ${token}`
   }
 }
 
@@ -123,7 +120,10 @@ export const pcapAPI = {
   async analyzeFile(fileId, analysisRequest) {
     const response = await fetch(`${API_BASE_URL}/pcap/${fileId}/analyze`, {
       method: 'POST',
-      headers: getAuthHeaders(),
+      headers: {
+        ...getAuthHeaders(),
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify(analysisRequest)
     })
     return handleResponse(response)
@@ -141,7 +141,10 @@ export const pcapAPI = {
   async startCapture(captureConfig) {
     const response = await fetch(`${API_BASE_URL}/pcap/capture/start`, {
       method: 'POST',
-      headers: getAuthHeaders(),
+      headers: {
+        ...getAuthHeaders(),
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify(captureConfig)
     })
     return handleResponse(response)
@@ -160,7 +163,10 @@ export const pcapAPI = {
   async startTraining(trainingConfig) {
     const response = await fetch(`${API_BASE_URL}/pcap/training/start`, {
       method: 'POST',
-      headers: getAuthHeaders(),
+      headers: {
+        ...getAuthHeaders(),
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify(trainingConfig)
     })
     return handleResponse(response)
@@ -178,7 +184,10 @@ export const pcapAPI = {
   async exportFiles(exportConfig) {
     const response = await fetch(`${API_BASE_URL}/pcap/export`, {
       method: 'POST',
-      headers: getAuthHeaders(),
+      headers: {
+        ...getAuthHeaders(),
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify(exportConfig)
     })
     return handleResponse(response)
@@ -211,4 +220,51 @@ export const apiUtils = {
   }
 }
 
-export default { pcapAPI, apiUtils }
+export const networkAPI = {
+  scanHost: async ({ target_ip, ports = [], arguments: args } = {}) => {
+    const headers = {
+      ...(await getAuthHeaders()),
+      'Content-Type': 'application/json',
+    };
+    const res = await fetch(`${API_BASE_URL}/network/scan/host`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ target_ip, ports, arguments: args }),
+    });
+    return handleResponse(res);
+  },
+
+  scanSubnet: async ({ subnet_cidr, arguments: args } = {}) => {
+    const headers = {
+      ...(await getAuthHeaders()),
+      'Content-Type': 'application/json',
+    };
+    const res = await fetch(`${API_BASE_URL}/network/scan/subnet`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ subnet_cidr, arguments: args }),
+    });
+    return handleResponse(res);
+  },
+
+  listScans: async ({ status, limit = 20 } = {}) => {
+    const qs = new URLSearchParams();
+    if (status) qs.append('status_filter', status);
+    if (limit) qs.append('limit', String(limit));
+    const res = await fetch(`${API_BASE_URL}/network/scans?${qs.toString()}`, {
+      method: 'GET',
+      headers: await getAuthHeaders(),
+    });
+    return handleResponse(res);
+  },
+
+  getScan: async (scan_id) => {
+    const res = await fetch(`${API_BASE_URL}/network/scans/${scan_id}` , {
+      method: 'GET',
+      headers: await getAuthHeaders(),
+    });
+    return handleResponse(res);
+  },
+};
+
+export default { apiUtils }

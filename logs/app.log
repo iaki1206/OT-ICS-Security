@@ -1,0 +1,325 @@
+2025-10-04 13:02:50 | INFO     | backend.main:lifespan:51 - Starting ICS Cybersecurity Platform...
+2025-10-04 13:02:54 | ERROR    | backend.database.database:_create_tables:93 - Failed to create tables: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-10-04 13:02:54 | ERROR    | backend.database.database:initialize:83 - Failed to initialize database: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-10-04 13:02:54 | ERROR    | backend.main:lifespan:70 - Failed to start application: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-10-04 13:03:00 | INFO     | backend.main:lifespan:51 - Starting ICS Cybersecurity Platform...
+2025-10-04 13:03:05 | ERROR    | backend.database.database:_create_tables:93 - Failed to create tables: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-10-04 13:03:05 | ERROR    | backend.database.database:initialize:83 - Failed to initialize database: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-10-04 13:03:05 | ERROR    | backend.main:lifespan:70 - Failed to start application: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-10-04 13:03:10 | INFO     | backend.main:lifespan:51 - Starting ICS Cybersecurity Platform...
+2025-10-04 13:03:14 | ERROR    | backend.database.database:_create_tables:93 - Failed to create tables: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-10-04 13:03:14 | ERROR    | backend.database.database:initialize:83 - Failed to initialize database: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-10-04 13:03:14 | ERROR    | backend.main:lifespan:70 - Failed to start application: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-10-04 13:04:28 | INFO     | backend.main:lifespan:47 - Starting ICS Cybersecurity Platform...
+2025-10-04 13:04:32 | ERROR    | backend.database.database:_create_tables:93 - Failed to create tables: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-10-04 13:04:32 | ERROR    | backend.database.database:initialize:83 - Failed to initialize database: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-10-04 13:04:32 | ERROR    | backend.main:lifespan:66 - Failed to start application: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-10-04 13:04:40 | INFO     | backend.main:lifespan:47 - Starting ICS Cybersecurity Platform...
+2025-10-04 13:04:44 | ERROR    | backend.database.database:_create_tables:93 - Failed to create tables: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-10-04 13:04:44 | ERROR    | backend.database.database:initialize:83 - Failed to initialize database: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-10-04 13:04:44 | ERROR    | backend.main:lifespan:66 - Failed to start application: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-10-04 13:05:02 | INFO     | backend.main:lifespan:47 - Starting ICS Cybersecurity Platform...
+2025-10-04 13:05:06 | ERROR    | backend.database.database:_create_tables:93 - Failed to create tables: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-10-04 13:05:06 | ERROR    | backend.database.database:initialize:83 - Failed to initialize database: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-10-04 13:05:06 | ERROR    | backend.main:lifespan:66 - Failed to start application: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-10-04 13:40:11 | INFO     | backend.main:lifespan:47 - Starting ICS Cybersecurity Platform...
+2025-10-04 13:40:15 | ERROR    | backend.database.database:_create_tables:145 - Failed to create tables: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-10-04 13:40:15 | ERROR    | backend.database.database:initialize:96 - Failed to initialize database with URL postgresql://ics_user:ics_password@localhost:5432/ics_cybersecurity: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-10-04 13:40:15 | WARNING  | backend.database.database:initialize:102 - Falling back to local SQLite database file 'ics_local.db' for development
+2025-10-04 13:40:15 | ERROR    | backend.database.database:_create_tables:145 - Failed to create tables: (in table 'users', column 'id'): Compiler <sqlalchemy.dialects.sqlite.base.SQLiteTypeCompiler object at 0x0000019BD4315E90> can't render element of type UUID
+2025-10-04 13:40:15 | ERROR    | backend.database.database:initialize:134 - SQLite fallback failed: (in table 'users', column 'id'): Compiler <sqlalchemy.dialects.sqlite.base.SQLiteTypeCompiler object at 0x0000019BD4315E90> can't render element of type UUID
+2025-10-04 13:40:15 | ERROR    | backend.main:lifespan:66 - Failed to start application: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-10-04 14:31:12 | INFO     | backend.main:lifespan:47 - Starting ICS Cybersecurity Platform...
+2025-10-04 14:31:16 | ERROR    | backend.database.database:_create_tables:145 - Failed to create tables: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-10-04 14:31:16 | ERROR    | backend.database.database:initialize:96 - Failed to initialize database with URL postgresql://ics_user:ics_password@localhost:5432/ics_cybersecurity: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-10-04 14:31:16 | WARNING  | backend.database.database:initialize:102 - Falling back to local SQLite database file 'ics_local.db' for development
+2025-10-04 14:31:16 | ERROR    | backend.database.database:_create_tables:145 - Failed to create tables: (in table 'users', column 'id'): Compiler <sqlalchemy.dialects.sqlite.base.SQLiteTypeCompiler object at 0x000001129A0661D0> can't render element of type UUID
+2025-10-04 14:31:16 | ERROR    | backend.database.database:initialize:134 - SQLite fallback failed: (in table 'users', column 'id'): Compiler <sqlalchemy.dialects.sqlite.base.SQLiteTypeCompiler object at 0x000001129A0661D0> can't render element of type UUID
+2025-10-04 14:31:16 | ERROR    | backend.main:lifespan:66 - Failed to start application: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-10-04 14:33:40 | INFO     | backend.main:lifespan:47 - Starting ICS Cybersecurity Platform...
+2025-10-04 14:33:44 | ERROR    | backend.database.database:_create_tables:145 - Failed to create tables: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-10-04 14:33:44 | ERROR    | backend.database.database:initialize:96 - Failed to initialize database with URL postgresql://ics_user:ics_password@localhost:5432/ics_cybersecurity: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-10-04 14:33:44 | WARNING  | backend.database.database:initialize:102 - Falling back to local SQLite database file 'ics_local.db' for development
+2025-10-04 14:33:44 | ERROR    | backend.database.database:_create_tables:145 - Failed to create tables: (in table 'users', column 'id'): Compiler <sqlalchemy.dialects.sqlite.base.SQLiteTypeCompiler object at 0x000001E4DF141090> can't render element of type UUID
+2025-10-04 14:33:44 | ERROR    | backend.database.database:initialize:134 - SQLite fallback failed: (in table 'users', column 'id'): Compiler <sqlalchemy.dialects.sqlite.base.SQLiteTypeCompiler object at 0x000001E4DF141090> can't render element of type UUID
+2025-10-04 14:33:44 | ERROR    | backend.main:lifespan:66 - Failed to start application: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-10-04 14:36:11 | INFO     | backend.main:lifespan:47 - Starting ICS Cybersecurity Platform...
+2025-10-04 14:36:15 | ERROR    | backend.database.database:_create_tables:145 - Failed to create tables: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-10-04 14:36:15 | ERROR    | backend.database.database:initialize:96 - Failed to initialize database with URL postgresql://ics_user:ics_password@localhost:5432/ics_cybersecurity: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-10-04 14:36:15 | WARNING  | backend.database.database:initialize:102 - Falling back to local SQLite database file 'ics_local.db' for development
+2025-10-04 14:36:15 | INFO     | backend.database.database:_create_tables:143 - Database tables created/verified
+2025-10-04 14:36:15 | INFO     | backend.database.database:_test_connection:159 - Database connection test successful
+2025-10-04 14:36:15 | INFO     | backend.database.database:initialize:131 - Database initialized successfully with SQLite fallback
+2025-10-04 14:36:15 | INFO     | backend.main:lifespan:52 - Database initialized successfully
+2025-10-04 14:36:16 | INFO     | backend.main:lifespan:62 - Services initialized successfully
+2025-10-04 14:36:16 | INFO     | backend.main:lifespan:63 - ICS Cybersecurity Platform started successfully
+2025-10-04 14:58:24 | INFO     | backend.main:lifespan:47 - Starting ICS Cybersecurity Platform...
+2025-10-04 14:58:29 | ERROR    | backend.database.database:_create_tables:145 - Failed to create tables: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-10-04 14:58:29 | ERROR    | backend.database.database:initialize:96 - Failed to initialize database with URL postgresql://ics_user:ics_password@localhost:5432/ics_cybersecurity: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-10-04 14:58:29 | WARNING  | backend.database.database:initialize:102 - Falling back to local SQLite database file 'ics_local.db' for development
+2025-10-04 14:58:29 | INFO     | backend.database.database:_create_tables:143 - Database tables created/verified
+2025-10-04 14:58:29 | INFO     | backend.database.database:_test_connection:159 - Database connection test successful
+2025-10-04 14:58:29 | INFO     | backend.database.database:initialize:131 - Database initialized successfully with SQLite fallback
+2025-10-04 14:58:29 | INFO     | backend.main:lifespan:52 - Database initialized successfully
+2025-10-04 14:58:29 | INFO     | backend.main:lifespan:62 - Services initialized successfully
+2025-10-04 14:58:29 | INFO     | backend.main:lifespan:63 - ICS Cybersecurity Platform started successfully
+2025-10-04 15:14:21 | INFO     | backend.main:lifespan:72 - Shutting down ICS Cybersecurity Platform...
+2025-10-04 15:14:21 | INFO     | backend.database.database:close:208 - Database connections closed
+2025-10-04 15:14:21 | INFO     | backend.main:lifespan:77 - Database connections closed
+2025-10-04 15:14:21 | ERROR    | backend.main:lifespan:89 - Error during shutdown: 'MLService' object has no attribute 'cleanup'
+2025-10-04 15:16:43 | INFO     | backend.main:lifespan:47 - Starting ICS Cybersecurity Platform...
+2025-10-04 15:16:48 | ERROR    | backend.database.database:_create_tables:145 - Failed to create tables: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-10-04 15:16:48 | ERROR    | backend.database.database:initialize:96 - Failed to initialize database with URL postgresql://ics_user:ics_password@localhost:5432/ics_cybersecurity: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-10-04 15:16:48 | WARNING  | backend.database.database:initialize:102 - Falling back to local SQLite database file 'ics_local.db' for development
+2025-10-04 15:16:48 | INFO     | backend.database.database:_create_tables:143 - Database tables created/verified
+2025-10-04 15:16:48 | INFO     | backend.database.database:_test_connection:159 - Database connection test successful
+2025-10-04 15:16:48 | INFO     | backend.database.database:initialize:131 - Database initialized successfully with SQLite fallback
+2025-10-04 15:16:48 | INFO     | backend.main:lifespan:52 - Database initialized successfully
+2025-10-04 15:16:48 | INFO     | backend.main:lifespan:62 - Services initialized successfully
+2025-10-04 15:16:48 | INFO     | backend.main:lifespan:63 - ICS Cybersecurity Platform started successfully
+2025-10-04 15:16:54 | INFO     | backend.main:log_requests:142 - Request: GET /health from 127.0.0.1
+2025-10-04 15:16:54 | INFO     | backend.main:log_requests:154 - Response: 200 for GET /health in 0.0020s
+2025-10-04 15:17:04 | INFO     | backend.main:log_requests:142 - Request: GET /health/detailed from 127.0.0.1
+2025-10-04 15:17:04 | ERROR    | backend.database.database:check_database_health:261 - Database health check failed: object Row can't be used in 'await' expression
+2025-10-04 15:17:04 | ERROR    | backend.main:detailed_health_check:261 - Health check error: 'MLService' object has no attribute 'health_check'
+2025-10-04 15:17:04 | INFO     | backend.main:log_requests:154 - Response: 200 for GET /health/detailed in 0.0081s
+2025-10-04 15:22:10 | INFO     | backend.main:log_requests:142 - Request: GET / from 127.0.0.1
+2025-10-04 15:22:10 | INFO     | backend.main:log_requests:154 - Response: 200 for GET / in 0.0041s
+2025-10-04 15:22:10 | INFO     | backend.main:log_requests:142 - Request: GET / from 127.0.0.1
+2025-10-04 15:22:10 | INFO     | backend.main:log_requests:154 - Response: 200 for GET / in 0.0030s
+2025-10-04 15:22:10 | INFO     | backend.main:log_requests:142 - Request: GET /@vite/client from 127.0.0.1
+2025-10-04 15:22:10 | INFO     | backend.main:log_requests:154 - Response: 404 for GET /@vite/client in 0.0031s
+2025-10-04 15:24:51 | INFO     | backend.main:log_requests:142 - Request: GET / from 127.0.0.1
+2025-10-04 15:24:51 | INFO     | backend.main:log_requests:154 - Response: 200 for GET / in 0.0050s
+2025-10-04 15:24:51 | INFO     | backend.main:log_requests:142 - Request: GET / from 127.0.0.1
+2025-10-04 15:24:51 | INFO     | backend.main:log_requests:154 - Response: 200 for GET / in 0.0039s
+2025-10-04 15:24:51 | INFO     | backend.main:lifespan:72 - Shutting down ICS Cybersecurity Platform...
+2025-10-04 15:24:51 | INFO     | backend.database.database:close:208 - Database connections closed
+2025-10-04 15:24:51 | INFO     | backend.main:lifespan:77 - Database connections closed
+2025-10-04 15:24:51 | ERROR    | backend.main:lifespan:89 - Error during shutdown: 'MLService' object has no attribute 'cleanup'
+2025-10-04 15:24:58 | INFO     | backend.main:lifespan:47 - Starting ICS Cybersecurity Platform...
+2025-10-04 15:25:02 | ERROR    | backend.database.database:_create_tables:145 - Failed to create tables: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-10-04 15:25:02 | ERROR    | backend.database.database:initialize:96 - Failed to initialize database with URL postgresql://ics_user:ics_password@localhost:5432/ics_cybersecurity: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-10-04 15:25:02 | WARNING  | backend.database.database:initialize:102 - Falling back to local SQLite database file 'ics_local.db' for development
+2025-10-04 15:25:02 | INFO     | backend.database.database:_create_tables:143 - Database tables created/verified
+2025-10-04 15:25:07 | INFO     | backend.main:lifespan:47 - Starting ICS Cybersecurity Platform...
+2025-10-04 15:25:11 | ERROR    | backend.database.database:_create_tables:145 - Failed to create tables: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-10-04 15:25:11 | ERROR    | backend.database.database:initialize:96 - Failed to initialize database with URL postgresql://ics_user:ics_password@localhost:5432/ics_cybersecurity: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-10-04 15:25:11 | WARNING  | backend.database.database:initialize:102 - Falling back to local SQLite database file 'ics_local.db' for development
+2025-10-04 15:25:11 | INFO     | backend.database.database:_create_tables:143 - Database tables created/verified
+2025-10-04 15:25:11 | INFO     | backend.database.database:_test_connection:159 - Database connection test successful
+2025-10-04 15:25:11 | INFO     | backend.database.database:initialize:131 - Database initialized successfully with SQLite fallback
+2025-10-04 15:25:11 | INFO     | backend.main:lifespan:52 - Database initialized successfully
+2025-10-04 15:25:11 | INFO     | backend.main:lifespan:62 - Services initialized successfully
+2025-10-04 15:25:11 | INFO     | backend.main:lifespan:63 - ICS Cybersecurity Platform started successfully
+2025-10-04 15:25:11 | INFO     | backend.main:log_requests:142 - Request: GET /@vite/client from 127.0.0.1
+2025-10-04 15:25:11 | ERROR    | backend.main:general_exception_handler:190 - Unhandled exception for GET /@vite/client: No response returned.
+2025-10-04 15:52:12 | INFO     | backend.main:lifespan:47 - Starting ICS Cybersecurity Platform...
+2025-10-04 15:52:16 | ERROR    | backend.database.database:_create_tables:145 - Failed to create tables: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-10-04 15:52:16 | ERROR    | backend.database.database:initialize:96 - Failed to initialize database with URL postgresql://ics_user:ics_password@localhost:5432/ics_cybersecurity: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-10-04 15:52:16 | WARNING  | backend.database.database:initialize:102 - Falling back to local SQLite database file 'ics_local.db' for development
+2025-10-04 15:52:16 | INFO     | backend.database.database:_create_tables:143 - Database tables created/verified
+2025-10-04 15:52:16 | INFO     | backend.database.database:_test_connection:159 - Database connection test successful
+2025-10-04 15:52:16 | INFO     | backend.database.database:initialize:131 - Database initialized successfully with SQLite fallback
+2025-10-04 15:52:16 | INFO     | backend.main:lifespan:52 - Database initialized successfully
+2025-10-04 15:52:16 | INFO     | backend.main:lifespan:62 - Services initialized successfully
+2025-10-04 15:52:16 | INFO     | backend.main:lifespan:63 - ICS Cybersecurity Platform started successfully
+2025-10-04 15:52:42 | INFO     | backend.main:log_requests:142 - Request: GET /health/detailed from 127.0.0.1
+2025-10-04 15:52:42 | ERROR    | backend.database.database:check_database_health:261 - Database health check failed: object Row can't be used in 'await' expression
+2025-10-04 15:52:42 | INFO     | backend.services.ml_service:_initialize_default_models:210 - Default models initialized
+2025-10-04 15:52:42 | INFO     | backend.main:log_requests:154 - Response: 200 for GET /health/detailed in 0.0236s
