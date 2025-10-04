@@ -29,14 +29,34 @@ const ResponseWorkflows = () => {
     actions: [{ type: '', target: '', description: '' }]
   });
 
-  // Fetch workflow data on component mount
+  // Pre-load API module to avoid dynamic imports in event handlers
+  const [apiModule, setApiModule] = useState(null);
+  
+  // Load API module once on component mount
+  useEffect(() => {
+    const loadApiModule = async () => {
+      try {
+        const module = await import('./lib/api/api');
+        setApiModule(module);
+      } catch (error) {
+        console.error('Error loading API module:', error);
+      }
+    };
+    
+    loadApiModule();
+  }, []);
+  
+  // Fetch workflow data when API module is loaded
   useEffect(() => {
     const fetchWorkflowData = async () => {
       try {
         setIsLoading(true);
         
-        // Import the API service
-        const { api } = await import('./lib/api/api');
+        if (!apiModule) {
+          throw new Error('API module not loaded');
+        }
+        
+        const { api } = apiModule;
         
         // Fetch templates and instances
         const [templatesResponse, instancesResponse] = await Promise.all([
@@ -108,8 +128,10 @@ const ResponseWorkflows = () => {
       }
     };
     
-    fetchWorkflowData();
-  }, []);
+    if (apiModule) {
+      fetchWorkflowData();
+    }
+  }, [apiModule]);
   
   // Handle form input changes
   const handleInputChange = (e) => {
@@ -157,8 +179,11 @@ const ResponseWorkflows = () => {
   // Handle form submission
   const handleSubmit = async () => {
     try {
-      // Import the API service
-      const { api } = await import('./lib/api/api');
+      if (!apiModule) {
+        throw new Error('API module not loaded');
+      }
+      
+      const { api } = apiModule;
       
       // Create new template
       await api.post('/api/workflows/templates', formData);
@@ -181,11 +206,16 @@ const ResponseWorkflows = () => {
     }
   };
   
+  // This section was removed to fix duplicate Hook declarations
+  
   // Execute workflow
   const executeWorkflow = async (templateId) => {
     try {
-      // Import the API service
-      const { api } = await import('./lib/api/api');
+      if (!apiModule) {
+        throw new Error('API module not loaded');
+      }
+      
+      const { api } = apiModule;
       
       // Create new instance
       await api.post('/api/workflows/instances', {
@@ -208,8 +238,11 @@ const ResponseWorkflows = () => {
   // Cancel workflow
   const cancelWorkflow = async (instanceId) => {
     try {
-      // Import the API service
-      const { api } = await import('./lib/api/api');
+      if (!apiModule) {
+        throw new Error('API module not loaded');
+      }
+      
+      const { api } = apiModule;
       
       // Cancel instance
       await api.put(`/api/workflows/instances/${instanceId}/cancel`);
