@@ -40,12 +40,18 @@ AI-Powered Cybersecurity Framework for Industrial Control Systems (ICS/OT) with 
 ├── config/            # Configuration files (.env.example, nginx.conf, prometheus.yml)
 ├── deployments/       # Deployment configurations for different environments
 ├── docs/              # Documentation files
+│   └── API_DOCUMENTATION.md  # Comprehensive API documentation
 ├── frontend/          # React frontend application
 ├── grafana/           # Grafana dashboards and configurations
 ├── production/        # Production-specific Dockerfiles and configurations
 ├── scripts/           # Installation and utility scripts
 └── docker-compose.yml # Main Docker Compose configuration
 ```
+
+## Documentation
+
+- [API Documentation](docs/API_DOCUMENTATION.md) - Comprehensive documentation of all API endpoints
+- To view API documentation in browser: Run `python backend/api_docs_server.py` and visit http://127.0.0.1:8080
 
 ## Quick Start
 
